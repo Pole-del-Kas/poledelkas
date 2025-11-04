@@ -219,28 +219,18 @@ const desktopImages = [
 
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
   const mapContainer = document.querySelector('.map-container');
-  if (!mapContainer || !mapContainer.dataset.src) return;
+  if (!mapContainer) return;
 
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const iframe = document.createElement('iframe');
-        iframe.src = mapContainer.dataset.src;
-        iframe.style.width = '100%';
-        iframe.style.height = '200px';
-        iframe.frameBorder = '0';
-        iframe.allowFullscreen = true;
-        iframe.loading = 'lazy';
-        mapContainer.appendChild(iframe);
-
-        obs.unobserve(mapContainer); // stop observing after loading
-      }
-    });
-  });
-
-  observer.observe(mapContainer);
+  const iframe = document.createElement('iframe');
+  iframe.src = mapContainer.dataset.src;
+  iframe.style.width = '100%';
+  iframe.style.height = '200px';
+  iframe.frameBorder = '0';
+  iframe.allowFullscreen = true;
+  iframe.loading = 'lazy'; // optional
+  mapContainer.appendChild(iframe);
 });
 
 
