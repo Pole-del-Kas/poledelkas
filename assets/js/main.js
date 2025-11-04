@@ -99,13 +99,13 @@
    * Correct scrolling position upon page load for URLs containing hash links.
    */
   window.addEventListener('load', function(e) {
-    if (window.location.hash) {
+   if (window.location.hash) {
       const section = document.querySelector(window.location.hash);
-      if (section && !section.classList.contains('map-container')) {
-        section.scrollIntoView({ behavior: 'smooth' });
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth'});
       }
-    }
-  }); 
+  }
+  });
 
   /**
    * Navmenu Scrollspy
@@ -117,7 +117,7 @@
       if (!navmenulink.hash) return;
       let section = document.querySelector(navmenulink.hash);
       if (!section) return;
-      let position = window.scrollY + 10;
+      let position = window.scrollY + 200;
       if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
         document.querySelectorAll('.navmenu a.active').forEach(link => link.classList.remove('active'));
         navmenulink.classList.add('active');
@@ -128,6 +128,7 @@
   }
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
+
  
 $(document).ready(function() {
   /*--------------------------------------------------------------
@@ -217,5 +218,23 @@ const desktopImages = [
 
 
 });
+
+window.addEventListener('load', () => {
+  const mapContainer = document.querySelector('.map-container');
+  if (!mapContainer) return;
+
+  // Small delay to avoid mobile scroll jump
+  setTimeout(() => {
+    const iframe = document.createElement('iframe');
+    iframe.src = mapContainer.dataset.src;
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.frameBorder = '0';
+    iframe.allowFullscreen = true;
+    iframe.loading = 'lazy';
+    mapContainer.appendChild(iframe);
+  }, 200); // 200ms delay is usually enough
+});
+
 
 })();
