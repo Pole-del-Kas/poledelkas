@@ -99,18 +99,12 @@
    * Correct scrolling position upon page load for URLs containing hash links.
    */
   window.addEventListener('load', function(e) {
-    if (window.location.hash) {
-      if (document.querySelector(window.location.hash)) {
-        setTimeout(() => {
-          let section = document.querySelector(window.location.hash);
-          let scrollMarginTop = getComputedStyle(section).scrollMarginTop;
-          window.scrollTo({
-            top: section.offsetTop - parseInt(scrollMarginTop),
-            behavior: 'smooth'
-          });
-        }, 100);
+   if (window.location.hash) {
+      const section = document.querySelector(window.location.hash);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth'});
       }
-    }
+  }
   });
 
   /**
@@ -137,6 +131,9 @@
 
  
 $(document).ready(function() {
+  if (!window.location.hash) {
+    window.scrollTo(0, 0);
+  }
 
   /*--------------------------------------------------------------
   # Carousel Section
@@ -222,6 +219,28 @@ $(document).ready(function() {
   /*--------------------------------------------------------------
   # End of Carousel Section
   --------------------------------------------------------------*/
+
+  function lazyLoadMap() {
+  const mapContainer = document.querySelector('.map-container');
+  if (!mapContainer) return;
+
+  const rect = mapContainer.getBoundingClientRect();
+  if (rect.top < window.innerHeight && rect.bottom > 0) {
+    const iframe = document.createElement('iframe');
+    iframe.src = mapContainer.dataset.src;
+    iframe.style.width = '100%';
+    iframe.style.height = '200px';
+    iframe.frameBorder = '0';
+    iframe.allowFullscreen = true;
+    iframe.loading = 'lazy'; // optional, browser native lazy load
+    mapContainer.appendChild(iframe);
+    window.removeEventListener('scroll', lazyLoadMap);
+  }
+}
+
+    // Check on scroll and initially
+    window.addEventListener('scroll', lazyLoadMap);
+    lazyLoadMap();
 });
 
 
