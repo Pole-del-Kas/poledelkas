@@ -131,10 +131,6 @@
 
  
 $(document).ready(function() {
-  if (!window.location.hash) {
-    window.scrollTo(0, 0);
-  }
-
   /*--------------------------------------------------------------
   # Carousel Section
   --------------------------------------------------------------*/  
@@ -220,27 +216,31 @@ $(document).ready(function() {
   # End of Carousel Section
   --------------------------------------------------------------*/
 
-  function lazyLoadMap() {
+
+});
+
+document.addEventListener('DOMContentLoaded', () => {
   const mapContainer = document.querySelector('.map-container');
-  if (!mapContainer) return;
+  if (!mapContainer || !mapContainer.dataset.src) return;
 
-  const rect = mapContainer.getBoundingClientRect();
-  if (rect.top < window.innerHeight && rect.bottom > 0) {
-    const iframe = document.createElement('iframe');
-    iframe.src = mapContainer.dataset.src;
-    iframe.style.width = '100%';
-    iframe.style.height = '200px';
-    iframe.frameBorder = '0';
-    iframe.allowFullscreen = true;
-    iframe.loading = 'lazy'; // optional, browser native lazy load
-    mapContainer.appendChild(iframe);
-    window.removeEventListener('scroll', lazyLoadMap);
-  }
-}
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const iframe = document.createElement('iframe');
+        iframe.src = mapContainer.dataset.src;
+        iframe.style.width = '100%';
+        iframe.style.height = '200px';
+        iframe.frameBorder = '0';
+        iframe.allowFullscreen = true;
+        iframe.loading = 'lazy';
+        mapContainer.appendChild(iframe);
 
-    // Check on scroll and initially
-    window.addEventListener('scroll', lazyLoadMap);
-    lazyLoadMap();
+        obs.unobserve(mapContainer); // stop observing after loading
+      }
+    });
+  });
+
+  observer.observe(mapContainer);
 });
 
 
