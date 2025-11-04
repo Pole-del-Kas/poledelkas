@@ -98,14 +98,14 @@
   /**
    * Correct scrolling position upon page load for URLs containing hash links.
    */
-/*  window.addEventListener('load', function(e) {
-  if (window.location.hash) {
-    const section = document.querySelector(window.location.hash);
-    if (section && !section.classList.contains('map-container')) {
-      section.scrollIntoView({ behavior: 'smooth' });
+  window.addEventListener('load', function(e) {
+    if (window.location.hash) {
+      const section = document.querySelector(window.location.hash);
+      if (section && !section.classList.contains('map-container')) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
     }
-  }
-}); */
+  }); 
 
   /**
    * Navmenu Scrollspy
@@ -113,12 +113,11 @@
   let navmenulinks = document.querySelectorAll('.navmenu a');
 
   function navmenuScrollspy() {
-    if (window.innerWidth <= 900 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) return;
     navmenulinks.forEach(navmenulink => {
       if (!navmenulink.hash) return;
       let section = document.querySelector(navmenulink.hash);
       if (!section) return;
-      let position = window.scrollY + 50;
+      let position = window.scrollY + 10;
       if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
         document.querySelectorAll('.navmenu a.active').forEach(link => link.classList.remove('active'));
         navmenulink.classList.add('active');
@@ -129,43 +128,6 @@
   }
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
-
-  let lastScrollY = window.scrollY;
-
-function preventBottomJump() {
-  const scrollTop = window.scrollY;
-  const windowHeight = window.innerHeight;
-  const bodyHeight = document.body.scrollHeight;
-
-  // If we reach the bottom, lock the scroll
-  if (scrollTop + windowHeight >= bodyHeight) {
-    window.scrollTo(0, lastScrollY);
-  } else {
-    lastScrollY = scrollTop;
-  }
-}
-
-let isAtBottom = false;
-
-function checkBottom() {
-  const scrollPosition = window.scrollY + window.innerHeight;
-  const pageHeight = document.documentElement.scrollHeight;
-  isAtBottom = scrollPosition >= pageHeight - 1; // 1px tolerance
-}
-
-document.addEventListener('scroll', checkBottom, { passive: true });
-
-// Example: override any scrollIntoView calls if at bottom
-const originalScrollIntoView = Element.prototype.scrollIntoView;
-Element.prototype.scrollIntoView = function(...args) {
-  if (!isAtBottom) {
-    return originalScrollIntoView.apply(this, args);
-  }
-  // ignore if at bottom
-};
-
-window.addEventListener('scroll', preventBottomJump);
-
  
 $(document).ready(function() {
   /*--------------------------------------------------------------
