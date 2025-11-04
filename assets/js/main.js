@@ -142,7 +142,6 @@ $(document).ready(function() {
   # Carousel Section
   --------------------------------------------------------------*/  
   const $carousel = $('.poledance-carousel');
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   const mobileImages = [
       'assets/img/carousel/Copia de S07042024M (22).jpg',
@@ -189,7 +188,7 @@ $(document).ready(function() {
 
     // Add new images
     imagesToUse.forEach(src => {
-      $carousel.append(`<div><img src="${src}" alt=""></div>`);
+      $carousel.append(`<div><img data-lazy="${src}" alt=""></div>`);
     });
 
     // Re-initialize Slick
@@ -202,7 +201,8 @@ $(document).ready(function() {
       dots:!isMobile,
       autoplay: true,
       autoplaySpeed: 1000,
-      cssEase: 'ease-in-out'
+      cssEase: 'ease-in-out',
+      lazyLoad: 'ondemand'
     });
   }
 
