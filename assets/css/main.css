@@ -499,6 +499,7 @@ h6 {
   color: black;
   font-size: 14px;
   position: relative;
+  margin-bottom: 200px;
 }
 
 .footer::before {
@@ -783,7 +784,7 @@ section,
 
   section,
   .section {
-    scroll-margin-top: 0px;
+    scroll-margin-top: 66px;
   }
 }
 
