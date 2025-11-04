@@ -130,6 +130,22 @@
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
 
+  let lastScrollY = window.scrollY;
+
+function preventBottomJump() {
+  const scrollTop = window.scrollY;
+  const windowHeight = window.innerHeight;
+  const bodyHeight = document.body.scrollHeight;
+
+  // If we reach the bottom, lock the scroll
+  if (scrollTop + windowHeight >= bodyHeight) {
+    window.scrollTo(0, lastScrollY);
+  } else {
+    lastScrollY = scrollTop;
+  }
+}
+
+window.addEventListener('scroll', preventBottomJump);
 
  
 $(document).ready(function() {
