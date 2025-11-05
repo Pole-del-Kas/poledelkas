@@ -66,6 +66,11 @@
     font-style: normal;
 }
 
+* {
+  overscroll-behavior-y: none !important;
+  scroll-snap-type: none !important;
+}
+
 /*--------------------------------------------------------------
 # General Styling & Shared Classes
 --------------------------------------------------------------*/
